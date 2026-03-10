@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
 import { StudentsService } from './students.service'
 import { CreateStudentDto } from './dto/create-student.dto'
+import { UpdateStudentDto } from './dto/update-student.dto'
 
 @Controller('students')
 export class StudentsController {
@@ -11,8 +12,23 @@ export class StudentsController {
     return this.studentsService.findAll()
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: string){
+    return this.studentsService.findOne(id)
+  }
+
   @Post()
   create(@Body() body: CreateStudentDto){
     return this.studentsService.create(body)
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() body: UpdateStudentDto){
+    return this.studentsService.update(id, body)
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string){
+    return this.studentsService.remove(id)
   }
 }
