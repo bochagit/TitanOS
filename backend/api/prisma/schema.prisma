@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Gym {
+  id        String    @id @default(uuid())
+  name      String
+
+  // Branding
+  logoUrl String?
+  primaryColor String? @default("#000000")
+  secondaryColor String? @default("#FFFFFF")
+  
+  students  Student[]
+  createdAt DateTime  @default(now())
+}
+
+model Student {
+  id        String   @id @default(uuid())
+  name      String
+  email     String?
+  phone     String?
+  gymId     String
+  gym       Gym      @relation(fields: [gymId], references: [id])
+  payments  Payment[]
+  createdAt DateTime @default(now())
+}
+
+model Payment {
+  id        String   @id @default(uuid())
+  amount    Float
+  date      DateTime @default(now())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+}
