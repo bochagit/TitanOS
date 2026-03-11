@@ -57,3 +57,8 @@ export type Student = Prisma.StudentModel
  * 
  */
 export type Payment = Prisma.PaymentModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel

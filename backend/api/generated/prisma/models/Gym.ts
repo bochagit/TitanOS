@@ -190,6 +190,7 @@ export type GymWhereInput = {
   primaryColor?: Prisma.StringNullableFilter<"Gym"> | string | null
   secondaryColor?: Prisma.StringNullableFilter<"Gym"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Gym"> | Date | string
+  users?: Prisma.UserListRelationFilter
   students?: Prisma.StudentListRelationFilter
 }
 
@@ -200,6 +201,7 @@ export type GymOrderByWithRelationInput = {
   primaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
   secondaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  users?: Prisma.UserOrderByRelationAggregateInput
   students?: Prisma.StudentOrderByRelationAggregateInput
 }
 
@@ -213,6 +215,7 @@ export type GymWhereUniqueInput = Prisma.AtLeast<{
   primaryColor?: Prisma.StringNullableFilter<"Gym"> | string | null
   secondaryColor?: Prisma.StringNullableFilter<"Gym"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Gym"> | Date | string
+  users?: Prisma.UserListRelationFilter
   students?: Prisma.StudentListRelationFilter
 }, "id">
 
@@ -247,6 +250,7 @@ export type GymCreateInput = {
   primaryColor?: string | null
   secondaryColor?: string | null
   createdAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutGymInput
   students?: Prisma.StudentCreateNestedManyWithoutGymInput
 }
 
@@ -257,6 +261,7 @@ export type GymUncheckedCreateInput = {
   primaryColor?: string | null
   secondaryColor?: string | null
   createdAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutGymInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutGymInput
 }
 
@@ -267,6 +272,7 @@ export type GymUpdateInput = {
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutGymNestedInput
   students?: Prisma.StudentUpdateManyWithoutGymNestedInput
 }
 
@@ -277,6 +283,7 @@ export type GymUncheckedUpdateInput = {
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutGymNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutGymNestedInput
 }
 
@@ -365,6 +372,20 @@ export type GymUpdateOneRequiredWithoutStudentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.GymUpdateToOneWithWhereWithoutStudentsInput, Prisma.GymUpdateWithoutStudentsInput>, Prisma.GymUncheckedUpdateWithoutStudentsInput>
 }
 
+export type GymCreateNestedOneWithoutUsersInput = {
+  create?: Prisma.XOR<Prisma.GymCreateWithoutUsersInput, Prisma.GymUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.GymCreateOrConnectWithoutUsersInput
+  connect?: Prisma.GymWhereUniqueInput
+}
+
+export type GymUpdateOneRequiredWithoutUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.GymCreateWithoutUsersInput, Prisma.GymUncheckedCreateWithoutUsersInput>
+  connectOrCreate?: Prisma.GymCreateOrConnectWithoutUsersInput
+  upsert?: Prisma.GymUpsertWithoutUsersInput
+  connect?: Prisma.GymWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.GymUpdateToOneWithWhereWithoutUsersInput, Prisma.GymUpdateWithoutUsersInput>, Prisma.GymUncheckedUpdateWithoutUsersInput>
+}
+
 export type GymCreateWithoutStudentsInput = {
   id?: string
   name: string
@@ -372,6 +393,7 @@ export type GymCreateWithoutStudentsInput = {
   primaryColor?: string | null
   secondaryColor?: string | null
   createdAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutGymInput
 }
 
 export type GymUncheckedCreateWithoutStudentsInput = {
@@ -381,6 +403,7 @@ export type GymUncheckedCreateWithoutStudentsInput = {
   primaryColor?: string | null
   secondaryColor?: string | null
   createdAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutGymInput
 }
 
 export type GymCreateOrConnectWithoutStudentsInput = {
@@ -406,6 +429,7 @@ export type GymUpdateWithoutStudentsInput = {
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutGymNestedInput
 }
 
 export type GymUncheckedUpdateWithoutStudentsInput = {
@@ -415,6 +439,63 @@ export type GymUncheckedUpdateWithoutStudentsInput = {
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutGymNestedInput
+}
+
+export type GymCreateWithoutUsersInput = {
+  id?: string
+  name: string
+  logoUrl?: string | null
+  primaryColor?: string | null
+  secondaryColor?: string | null
+  createdAt?: Date | string
+  students?: Prisma.StudentCreateNestedManyWithoutGymInput
+}
+
+export type GymUncheckedCreateWithoutUsersInput = {
+  id?: string
+  name: string
+  logoUrl?: string | null
+  primaryColor?: string | null
+  secondaryColor?: string | null
+  createdAt?: Date | string
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutGymInput
+}
+
+export type GymCreateOrConnectWithoutUsersInput = {
+  where: Prisma.GymWhereUniqueInput
+  create: Prisma.XOR<Prisma.GymCreateWithoutUsersInput, Prisma.GymUncheckedCreateWithoutUsersInput>
+}
+
+export type GymUpsertWithoutUsersInput = {
+  update: Prisma.XOR<Prisma.GymUpdateWithoutUsersInput, Prisma.GymUncheckedUpdateWithoutUsersInput>
+  create: Prisma.XOR<Prisma.GymCreateWithoutUsersInput, Prisma.GymUncheckedCreateWithoutUsersInput>
+  where?: Prisma.GymWhereInput
+}
+
+export type GymUpdateToOneWithWhereWithoutUsersInput = {
+  where?: Prisma.GymWhereInput
+  data: Prisma.XOR<Prisma.GymUpdateWithoutUsersInput, Prisma.GymUncheckedUpdateWithoutUsersInput>
+}
+
+export type GymUpdateWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  students?: Prisma.StudentUpdateManyWithoutGymNestedInput
+}
+
+export type GymUncheckedUpdateWithoutUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  students?: Prisma.StudentUncheckedUpdateManyWithoutGymNestedInput
 }
 
 
@@ -423,10 +504,12 @@ export type GymUncheckedUpdateWithoutStudentsInput = {
  */
 
 export type GymCountOutputType = {
+  users: number
   students: number
 }
 
 export type GymCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  users?: boolean | GymCountOutputTypeCountUsersArgs
   students?: boolean | GymCountOutputTypeCountStudentsArgs
 }
 
@@ -438,6 +521,13 @@ export type GymCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensio
    * Select specific fields to fetch from the GymCountOutputType
    */
   select?: Prisma.GymCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * GymCountOutputType without action
+ */
+export type GymCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserWhereInput
 }
 
 /**
@@ -455,6 +545,7 @@ export type GymSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   primaryColor?: boolean
   secondaryColor?: boolean
   createdAt?: boolean
+  users?: boolean | Prisma.Gym$usersArgs<ExtArgs>
   students?: boolean | Prisma.Gym$studentsArgs<ExtArgs>
   _count?: boolean | Prisma.GymCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["gym"]>
@@ -488,6 +579,7 @@ export type GymSelectScalar = {
 
 export type GymOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "logoUrl" | "primaryColor" | "secondaryColor" | "createdAt", ExtArgs["result"]["gym"]>
 export type GymInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  users?: boolean | Prisma.Gym$usersArgs<ExtArgs>
   students?: boolean | Prisma.Gym$studentsArgs<ExtArgs>
   _count?: boolean | Prisma.GymCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -497,6 +589,7 @@ export type GymIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type $GymPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Gym"
   objects: {
+    users: Prisma.$UserPayload<ExtArgs>[]
     students: Prisma.$StudentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -900,6 +993,7 @@ readonly fields: GymFieldRefs;
  */
 export interface Prisma__GymClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  users<T extends Prisma.Gym$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Gym$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   students<T extends Prisma.Gym$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Gym$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1321,6 +1415,30 @@ export type GymDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Limit how many Gyms to delete.
    */
   limit?: number
+}
+
+/**
+ * Gym.users
+ */
+export type Gym$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+  orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]
+  cursor?: Prisma.UserWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
 }
 
 /**

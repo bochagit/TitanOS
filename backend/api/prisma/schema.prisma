@@ -14,6 +14,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  OWNER
+  STUDENT
+}
+
 model Gym {
   id        String    @id @default(uuid())
   name      String
@@ -23,6 +28,7 @@ model Gym {
   primaryColor String? @default("#000000")
   secondaryColor String? @default("#FFFFFF")
   
+  users     User[]
   students  Student[]
   createdAt DateTime  @default(now())
 }
@@ -44,4 +50,18 @@ model Payment {
   date      DateTime @default(now())
   studentId String
   student   Student  @relation(fields: [studentId], references: [id])
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+
+  role      UserRole
+
+  gymId     String
+  gym       Gym     @relation(fields: [gymId], references: [id])
+
+  createdAt DateTime @default(now())
 }
