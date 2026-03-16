@@ -1,5 +1,4 @@
-import { IsEmail, IsString, IsEnum, IsUUID } from 'class-validator'
-import { UserRole } from 'generated/prisma/enums'
+import { IsEmail, IsString, IsUUID } from 'class-validator'
 
 export class RegisterDto {
   @IsEmail()
@@ -10,9 +9,6 @@ export class RegisterDto {
 
   @IsString()
   name: string
-
-  @IsEnum(UserRole)
-  role: UserRole
 
   @IsUUID()
   gymId: string

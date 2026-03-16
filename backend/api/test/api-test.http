@@ -1,146 +1,92 @@
-### Variables
 @baseUrl = http://localhost:8080
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5NTUzMWM0ZS1hYTE2LTQzMDktOTEzZi0wNzc0ZmZjOTU2YjkiLCJneW1JZCI6ImEwMTY0NWRkLTMzZjUtNDBjNC1iMjlhLTFkMDg2YzI5ZTc3OSIsInJvbGUiOiJPV05FUiIsImlhdCI6MTc3MzE5NjY0MywiZXhwIjoxNzczODAxNDQzfQ.H69iYYvdP_WqWU5KlYtsKp1FOCOO4PbuLdqZUtAg4X0
-@gymId = a01645dd-33f5-40c4-b29a-1d086c29e779
-@studentId = 74056161-eb9f-433e-bc76-527725483c77
+@token =
+@gymId =
+@studentId =
 
-### ==========================================
-### 1. CREAR GYM (Público)
-### ==========================================
+### 0) Health
+GET {{baseUrl}}/
+
+### 1) Crear Gym (publico)
 POST {{baseUrl}}/gyms
 Content-Type: application/json
 
 {
   "name": "Titan Gym",
   "logoUrl": "https://example.com/logo.png",
-  "primaryColor": "#0000FF",
-  "secondaryColor": "#FFFFFF"
+  "primaryColor": "#111111",
+  "secondaryColor": "#eeeeee"
 }
 
-### COPIA EL "id" Y PEGALO EN @gymId ARRIBA
+### Copia el id y pégalo en @gymId arriba
 
-
-### ==========================================
-### 2. REGISTRAR USUARIO
-### ==========================================
+### 2) Register (publico)
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-  "email": "admin@titangym.com",
-  "password": "password123",
-  "name": "Admin User",
-  "role": "OWNER",
+  "email": "owner1@titangym.com",
+  "password": "12345678",
+  "name": "Owner 1",
   "gymId": "{{gymId}}"
 }
 
-### COPIA EL "access_token" Y PEGALO EN @token ARRIBA
+### Copia access_token y pégalo en @token arriba
 
-
-### ==========================================
-### 3. LOGIN
-### ==========================================
+### 3) Login (publico)
 POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "admin@titangym.com",
-  "password": "password123"
+  "email": "owner1@titangym.com",
+  "password": "12345678"
 }
 
-
-### ==========================================
-### 4. LISTAR GYMS (Protegido)
-### ==========================================
-GET {{baseUrl}}/gyms
+### 4) Auth me (protegido)
+GET {{baseUrl}}/auth/me
 Authorization: Bearer {{token}}
 
-
-### ==========================================
-### 5. OBTENER UN GYM (Protegido)
-### ==========================================
-GET {{baseUrl}}/gyms/{{gymId}}
+### 5) Students list (protegido)
+GET {{baseUrl}}/students
 Authorization: Bearer {{token}}
 
-
-### ==========================================
-### 6. ACTUALIZAR GYM (Protegido)
-### ==========================================
-PATCH {{baseUrl}}/gyms/{{gymId}}
-Content-Type: application/json
-Authorization: Bearer {{token}}
-
-{
-  "name": "Titan Gym Actualizado",
-  "primaryColor": "#0000FF"
-}
-
-
-### ==========================================
-### 7. CREAR ESTUDIANTE (Protegido)
-### ==========================================
+### 6) Create student (protegido)
 POST {{baseUrl}}/students
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Juan Pérez",
+  "name": "Juan Perez",
   "email": "juan@example.com",
-  "phone": "+1234567890",
+  "phone": "123456789",
   "gymId": "{{gymId}}"
 }
 
-### COPIA EL "id" Y PEGALO EN @studentId ARRIBA
+### Copia id y pégalo en @studentId arriba
 
-
-### ==========================================
-### 8. LISTAR ESTUDIANTES (Protegido)
-### ==========================================
-GET {{baseUrl}}/students
-Authorization: Bearer {{token}}
-
-
-### ==========================================
-### 9. OBTENER UN ESTUDIANTE (Protegido)
-### ==========================================
+### 7) Get student (protegido)
 GET {{baseUrl}}/students/{{studentId}}
 Authorization: Bearer {{token}}
 
-
-### ==========================================
-### 10. ACTUALIZAR ESTUDIANTE (Protegido)
-### ==========================================
+### 8) Update student (protegido)
 PATCH {{baseUrl}}/students/{{studentId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "phone": "+0987654321",
-  "email": "juan.perez@example.com"
+  "phone": "999999999"
 }
 
-
-### ==========================================
-### 11. ELIMINAR ESTUDIANTE (Protegido)
-### ==========================================
+### 9) Delete student (protegido)
 DELETE {{baseUrl}}/students/{{studentId}}
 Authorization: Bearer {{token}}
 
+### 10) Gyms list (protegido por OWNER/ADMIN)
+GET {{baseUrl}}/gyms
+Authorization: Bearer {{token}}
 
-### ==========================================
-### 12. ELIMINAR GYM (Protegido)
-### ==========================================
+### 11) Delete gym (protegido)
 DELETE {{baseUrl}}/gyms/{{gymId}}
 Authorization: Bearer {{token}}
 
-
-### ==========================================
-### PRUEBAS DE SEGURIDAD
-### ==========================================
-
-### Sin token (debe dar 401)
+### 11) Security test: sin token debe dar 401
 GET {{baseUrl}}/students
-
-### Token inválido (debe dar 401)
-GET {{baseUrl}}/students
-Authorization: Bearer token_invalido
