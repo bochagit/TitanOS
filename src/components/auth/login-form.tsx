@@ -6,18 +6,16 @@ import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
-export default function RegisterForm() {
+export default function LoginForm() {
   const supabase = createClient()
 
-  const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [gymName, setGymName] = useState('')
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
@@ -47,22 +45,10 @@ export default function RegisterForm() {
         <CardContent>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div className="space-y-2">
-              <Label htmlFor="fullName">Nombre completo</Label>
-              <Input
-                id="fullName"
-                placeholder="John Doe"
-                required
-                value={fullName}
-                onChange={e => setFullName(e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
-                type="email"
-                placeholder="John@email.com"
+                placeholder="tu@correo.com"
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
@@ -80,19 +66,8 @@ export default function RegisterForm() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="gym">Nombre del gimnasio</Label>
-              <Input
-                id="gym"
-                placeholder="Treino Gym"
-                required
-                value={gymName}
-                onChange={e => setGymName(e.target.value)}
-              />
-            </div>
-
             <Button className="w-full" type="submit">
-              Crear cuenta
+              Iniciar sesión
             </Button>
           </form>
         </CardContent>
