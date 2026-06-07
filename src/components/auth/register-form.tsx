@@ -80,17 +80,6 @@ export default function RegisterForm() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="gym">Nombre del gimnasio</Label>
-              <Input
-                id="gym"
-                placeholder="Treino Gym"
-                required
-                value={gymName}
-                onChange={e => setGymName(e.target.value)}
-              />
-            </div>
-
             <Button className="w-full" type="submit">
               Crear cuenta
             </Button>
