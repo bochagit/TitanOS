@@ -1,13 +1,16 @@
 'use client'
+
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 
 export default function LoginForm() {
   const supabase = createClient()
+  const router = useRouter()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -26,7 +29,11 @@ export default function LoginForm() {
     }
 
     const user = data.user
-    if (!user) return
+    if (!user) {
+      return
+    } else {
+      router.push('/dashboard')
+    }
   }
 
   return (
