@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -14,9 +15,11 @@ export default function LoginForm() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -27,6 +30,8 @@ export default function LoginForm() {
       console.error(error)
       return
     }
+
+    setLoading(false)
 
     const user = data.user
     if (!user) {
@@ -73,9 +78,16 @@ export default function LoginForm() {
               />
             </div>
 
-            <Button className="w-full" type="submit">
-              Iniciar sesión
-            </Button>
+            {loading ? (
+              <Button className="w-full" disabled>
+                <Spinner data-icon="inline-start" />
+                Iniciando sesión...
+              </Button>
+            ) : (
+              <Button className="w-full" type="submit">
+                Iniciar sesión
+              </Button>
+            )}
           </form>
         </CardContent>
       </Card>
