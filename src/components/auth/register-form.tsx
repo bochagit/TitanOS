@@ -1,42 +1,16 @@
 'use client'
 
+import { useActionState } from 'react'
+import { register } from '@/actions/auth'
+import Link from 'next/link'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
+import { Spinner } from '@/components/ui/spinner'
 
 export default function RegisterForm() {
-  const supabase = createClient()
-  const router = useRouter()
-
-  const [fullName, setFullName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [gymName, setGymName] = useState('')
-
-  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
-
-    if (error) {
-      console.error(error)
-      return
-    }
-
-    const user = data.user
-    if (!user) {
-      return
-    } else {
-      router.push('/login')
-    }
-  }
+  const [state, action, pending] = useActionState(register, null)
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-black px-4">
@@ -52,44 +26,50 @@ export default function RegisterForm() {
         </CardHeader>
 
         <CardContent>
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-4" action={action}>
+            {state?.error && (
+              <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-600">{state.error}</p>
+            )}
+
             <div className="space-y-2">
               <Label htmlFor="fullName">Nombre completo</Label>
-              <Input
-                id="fullName"
-                placeholder="John Doe"
-                required
-                value={fullName}
-                onChange={e => setFullName(e.target.value)}
-              />
+              <Input id="fullName" name="fullName" placeholder="John Doe" required />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="John@email.com"
-                required
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
+              <Input id="email" name="email" type="email" placeholder="John@email.com" required />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="password">Contraseña</Label>
               <Input
                 id="password"
+                name="password"
                 type="password"
+                placeholder="••••••••"
+                minLength={6}
                 required
-                value={password}
-                onChange={e => setPassword(e.target.value)}
               />
             </div>
 
-            <Button className="w-full" type="submit">
-              Crear cuenta
-            </Button>
+            {pending ? (
+              <Button className="w-full" disabled>
+                <Spinner data-icon="inline-start" />
+                Creando cuenta...
+              </Button>
+            ) : (
+              <Button className="w-full" type="submit">
+                Registrarse
+              </Button>
+            )}
+
+            <p className="text-muted-foreground text-center text-sm">
+              ¿Ya tenés cuenta?{' '}
+              <Link href="/login" className="underline underline-offset-4">
+                Iniciar sesión
+              </Link>
+            </p>
           </form>
         </CardContent>
       </Card>

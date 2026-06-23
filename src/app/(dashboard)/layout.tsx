@@ -9,10 +9,19 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const {
     data: { user },
   } = await supabase.auth.getUser()
-
   if (!user) redirect('/login')
 
-  console.log(user)
+  const { data: profile, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', user.id)
+    .single()
+
+  if (error || !profile) redirect('/login')
+
+  if (profile.status === 'pending') redirect('/waiting-approval')
+  if (profile.role === 'admin') redirect('/admin')
+
   return (
     <div className="flex min-h-screen">
       <Sidebar />
