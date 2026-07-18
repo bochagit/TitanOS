@@ -43,6 +43,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-#Database DER
+# Database DER
 *.dbml
 *.dbdiagram
+
+# Agents
+AGENTS.md

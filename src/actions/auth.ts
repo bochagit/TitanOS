@@ -5,19 +5,6 @@ import { createClient } from '@/lib/supabase/server'
 
 export type AuthState = { error: string } | null
 
-export async function login(_: AuthState, formData: FormData): Promise<AuthState> {
-  const supabase = await createClient()
-
-  const { error } = await supabase.auth.signInWithPassword({
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-  })
-
-  if (error) return { error: error.message }
-
-  redirect('/dashboard')
-}
-
 export async function register(_: AuthState, formData: FormData): Promise<AuthState> {
   const supabase = await createClient()
 
@@ -34,6 +21,19 @@ export async function register(_: AuthState, formData: FormData): Promise<AuthSt
   if (error) return { error: error.message }
 
   redirect('/waiting-approval')
+}
+
+export async function login(_: AuthState, formData: FormData): Promise<AuthState> {
+  const supabase = await createClient()
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
+  })
+
+  if (error) return { error: error.message }
+
+  redirect('/dashboard')
 }
 
 export async function logout() {

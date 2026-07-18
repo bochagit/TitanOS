@@ -1,8 +1,8 @@
 'use client'
 
 import { useActionState } from 'react'
+import { login, type AuthState } from '@/actions/auth'
 import Link from 'next/link'
-import { login } from '@/actions/auth'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Spinner } from '@/components/ui/spinner'
 
 export default function LoginForm() {
-  const [state, action, pending] = useActionState(login, null)
+  const [state, formAction, pending] = useActionState<AuthState, FormData>(login, null)
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-black px-4">
@@ -26,7 +26,11 @@ export default function LoginForm() {
         </CardHeader>
 
         <CardContent>
-          <form className="space-y-4" action={action}>
+          <form className="space-y-4" action={formAction}>
+            {state?.error && (
+              <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-600">{state.error}</p>
+            )}
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" placeholder="tu@correo.com" required />
