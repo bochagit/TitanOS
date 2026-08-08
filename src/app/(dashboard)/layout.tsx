@@ -2,6 +2,7 @@ import { Sidebar } from '@/components/dashboard/sidebar'
 import { Header } from '@/components/dashboard/header'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { DashboardProvider } from '@/contexts/dashboard-context'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -24,14 +25,16 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (profile.role === 'admin') redirect('/admin')
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar />
+    <DashboardProvider user={user} profile={profile}>
+      <div className="flex min-h-screen">
+        <Sidebar />
 
-      <div className="flex flex-1 flex-col">
-        <Header />
+        <div className="flex flex-1 flex-col">
+          <Header />
 
-        <main className="flex-1 p-6">{children}</main>
+          <main className="flex-1 p-6">{children}</main>
+        </div>
       </div>
-    </div>
+    </DashboardProvider>
   )
 }
